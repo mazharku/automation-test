@@ -1,6 +1,7 @@
 package com.mazhar.automation.worker;
 
 import com.mazhar.automation.model.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -8,19 +9,19 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 public class ReadAllData {
     private final RestCaller restCaller;
+    private final DataSource dataSource;
 
-    public ReadAllData(RestCaller restCaller) {
-        this.restCaller = restCaller;
-    }
 
     public List<HotelWeatherModel> startProcess() {
-        if(Data.countryList.isEmpty()){
-            Data.loadData();
+        List<Country> countryList = dataSource.getCountryList();
+        if(countryList.isEmpty()){
+            dataSource.loadData();
         }
         List<HotelWeatherModel> models = new ArrayList<>();
-        for(Country country : Data.countryList) {
+        for(Country country : countryList) {
             Hotel hotel = restCaller.getHotel(country.getCityName());
             Weather weather = restCaller.getWeather(country.getCityName());
             models.add(new HotelWeatherModel(country.getCountryName(),hotel,weather));

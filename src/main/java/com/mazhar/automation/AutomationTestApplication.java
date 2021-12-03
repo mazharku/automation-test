@@ -1,18 +1,21 @@
 package com.mazhar.automation;
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.mazhar.automation.model.Country;
 import com.mazhar.automation.model.CountryDataFormat;
-import com.mazhar.automation.model.HotelWeatherModel;
-import com.mazhar.automation.worker.Data;
+import com.mazhar.automation.worker.DataSource;
 import com.mazhar.automation.worker.ReadAllData;
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 
 import javax.annotation.PostConstruct;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootApplication
@@ -21,8 +24,7 @@ public class AutomationTestApplication {
 
 	@Autowired
 	private ReadAllData data;
-	public static void main(String[] args) {
-		Data.loadData();
+	public static void main(String... args) {
 		SpringApplication.run(AutomationTestApplication.class, args);
 	}
 
@@ -45,15 +47,12 @@ public class AutomationTestApplication {
 
 
 
-	//@PostConstruct
+	@PostConstruct
 	public void doTest() throws IOException {
-		List<HotelWeatherModel> models = data.startProcess();
-		List<CountryDataFormat> countryDataFormats = data.formatData(models);
-		writeToXML(countryDataFormats);
-		System.out.println(countryDataFormats.size());
+
 	}
 
-	@Scheduled(fixedRate = 600000) //10 min
+	//@Scheduled(fixedRate = 600000) //10 min
 	public void scheduleTaskWithFixedRate() {
 		try {
 			doTest();
