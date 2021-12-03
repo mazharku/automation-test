@@ -1,5 +1,5 @@
 
-package com.mazhar.automation.model;
+package com.mazhar.automation.model.responses;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;

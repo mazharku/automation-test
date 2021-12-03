@@ -1,6 +1,9 @@
 package com.mazhar.automation.worker;
 
 import com.mazhar.automation.model.*;
+import com.mazhar.automation.model.responses.Entity;
+import com.mazhar.automation.model.responses.HotelResponse;
+import com.mazhar.automation.model.responses.WeatherResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -15,64 +18,64 @@ public class ReadAllData {
     private final DataSource dataSource;
 
 
-    public List<HotelWeatherModel> startProcess() {
-        List<Country> countryList = dataSource.getCountryList();
-        if(countryList.isEmpty()){
+    public List<ResponseDataModel> startProcess() {
+        List<DataSourceModel> dataSourceModelList = dataSource.getCountryList();
+        if(dataSourceModelList.isEmpty()){
             dataSource.loadData();
         }
-        List<HotelWeatherModel> models = new ArrayList<>();
-        for(Country country : countryList) {
-            Hotel hotel = restCaller.getHotel(country.getCityName());
-            Weather weather = restCaller.getWeather(country.getCityName());
-            models.add(new HotelWeatherModel(country.getCountryName(),hotel,weather));
+        List<ResponseDataModel> models = new ArrayList<>();
+        for(DataSourceModel dataSourceModel : dataSourceModelList) {
+            HotelResponse hotelResponse = restCaller.getHotel(dataSourceModel.getCityName());
+            WeatherResponse weatherResponse = restCaller.getWeather(dataSourceModel.getCityName());
+            models.add(new ResponseDataModel(dataSourceModel.getCountryName(), hotelResponse, weatherResponse));
         }
         return models;
     }
 
-    public  List<CountryDataFormat> formatData(List<HotelWeatherModel> models) {
+    public  List<CountryDataFormat> formatData(List<ResponseDataModel> models) {
         return models
                 .stream()
                 .map(data-> {
-                    Hotel hotel= data.getHotel();
-                    Weather weather = data.getWeather();
+                    HotelResponse hotelResponse = data.getHotelResponse();
+                    WeatherResponse weatherResponse = data.getWeatherResponse();
                     CountryDataFormat countryDataFormat = new CountryDataFormat();
                     countryDataFormat.setCountryName(data.getCountryName());
-                    countryDataFormat.setCityName(hotel.getTerm());
-                    List<HotelEntity> hotels = getHotels(hotel);
-                    countryDataFormat.setHotelEntityList(hotels);
-                    WeatherEntity weatherEntity = generateWeather(weather);
-                    countryDataFormat.setWeatherEntity(weatherEntity);
+                    countryDataFormat.setCityName(hotelResponse.getTerm());
+                    List<Hotel> hotels = getHotels(hotelResponse);
+                    countryDataFormat.setHotelList(hotels);
+                    Weather weather = generateWeather(weatherResponse);
+                    countryDataFormat.setWeather(weather);
                     return countryDataFormat;
                 })
                 .collect(Collectors.toList());
     }
 
-    private WeatherEntity generateWeather(Weather weather) {
-        if(weather==null){
+    private Weather generateWeather(WeatherResponse weatherResponse) {
+        if(weatherResponse ==null){
             return null;
         }
-        WeatherEntity weatherEntity = new WeatherEntity();
-        weatherEntity.setDetails(weather.getMain());
-        weatherEntity.setSunrise(weather.getSys().getSunrise());
-        weatherEntity.setSunset(weather.getSys().getSunset());
-        weatherEntity.setTimeZone(weather.getTimezone());
-        return weatherEntity;
+        Weather weather = new Weather();
+        weather.setDetails(weatherResponse.getMain());
+        weather.setSunrise(weatherResponse.getSys().getSunrise());
+        weather.setSunset(weatherResponse.getSys().getSunset());
+        weather.setTimeZone(weatherResponse.getTimezone());
+        return weather;
     }
 
-    private List<HotelEntity> getHotels(Hotel hotel) {
-       return hotel.getSuggestions().stream()
+    private List<Hotel> getHotels(HotelResponse hotelResponse) {
+       return hotelResponse.getSuggestions().stream()
                 .map(data ->{
-                         HotelEntity hotelEntity = new HotelEntity();
+                         Hotel hotel = new Hotel();
                     List<Entity> entities = data.getEntities();
                     if(entities.isEmpty()) {
                         return null;
                     }
                     for(Entity entity: entities) {
-                        hotelEntity.setName(entity.getName());
-                        hotelEntity.setName(entity.getCaption());
-                        hotelEntity.setCompanyName(data.getGroup());
+                        hotel.setName(entity.getName());
+                        hotel.setName(entity.getCaption());
+                        hotel.setCompanyName(data.getGroup());
                     }
-                    return hotelEntity;
+                    return hotel;
                         }).collect(Collectors.toList());
     }
 

@@ -1,5 +1,5 @@
 
-package com.mazhar.automation.model;
+package com.mazhar.automation.model.responses;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,9 +18,12 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Clouds {
+public class Weather__1 {
 
-    private Integer all;
+    private Integer id;
+    private String main;
+    private String description;
+    private String icon;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 

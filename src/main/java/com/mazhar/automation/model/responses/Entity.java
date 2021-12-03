@@ -1,5 +1,5 @@
 
-package com.mazhar.automation.model;
+package com.mazhar.automation.model.responses;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,16 +14,22 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
 @NoArgsConstructor
 @Getter
 @Setter
-public class Weather__1 {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class Entity {
 
-    private Integer id;
-    private String main;
-    private String description;
-    private String icon;
+    private String geoId;
+    private String destinationId;
+    private String landmarkCityDestinationId;
+    private String type;
+    private String redirectPage;
+    private Double latitude;
+    private Double longitude;
+    private String searchDetail;
+    private String caption;
+    private String name;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 

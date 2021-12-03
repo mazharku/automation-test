@@ -6,11 +6,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
-public class HotelWeatherModel {
-    private String countryName;
-    private Hotel hotel;
-    private Weather weather;
+@AllArgsConstructor
+public class DataSourceModel {
+    String countryName;
+    String cityName;
 }

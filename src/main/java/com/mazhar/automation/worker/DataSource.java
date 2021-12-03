@@ -1,6 +1,6 @@
 package com.mazhar.automation.worker;
 
-import com.mazhar.automation.model.Country;
+import com.mazhar.automation.model.DataSourceModel;
 import com.opencsv.CSVReader;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
@@ -12,7 +12,7 @@ import java.util.List;
 
 @Component
 public class DataSource {
-    private  List<Country> countryList= new ArrayList<>();
+    private  List<DataSourceModel> dataSourceModelList = new ArrayList<>();
 
     public  void loadData() {
         try {
@@ -23,7 +23,7 @@ public class DataSource {
             }
             for (int i = 1; i < values.size(); i++) {
                 String[] country = values.get(i);
-                countryList.add(new Country(country[0], country[1]));
+                dataSourceModelList.add(new DataSourceModel(country[0], country[1]));
             }
         }catch (Exception e) {
 
@@ -31,7 +31,7 @@ public class DataSource {
 
     }
 
-    public List<Country> getCountryList() {
-        return countryList;
+    public List<DataSourceModel> getCountryList() {
+        return dataSourceModelList;
     }
 }

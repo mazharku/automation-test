@@ -14,6 +14,6 @@ import java.util.List;
 public class CountryDataFormat {
     String CountryName;
     String CityName;
-    private List<HotelEntity> hotelEntityList;
-    private WeatherEntity weatherEntity;
+    private List<Hotel> hotelList;
+    private Weather weather;
 }

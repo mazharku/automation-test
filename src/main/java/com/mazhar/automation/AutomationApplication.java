@@ -1,31 +1,25 @@
 package com.mazhar.automation;
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import com.mazhar.automation.model.Country;
 import com.mazhar.automation.model.CountryDataFormat;
-import com.mazhar.automation.worker.DataSource;
 import com.mazhar.automation.worker.ReadAllData;
-import com.opencsv.CSVReader;
-import com.opencsv.exceptions.CsvException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 import javax.annotation.PostConstruct;
 import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootApplication
 @EnableScheduling
-public class AutomationTestApplication {
+public class AutomationApplication {
 
 	@Autowired
 	private ReadAllData data;
 	public static void main(String... args) {
-		SpringApplication.run(AutomationTestApplication.class, args);
+		SpringApplication.run(AutomationApplication.class, args);
 	}
 
 	public void writeToXML(List<CountryDataFormat> countryDataFormats) throws IOException {

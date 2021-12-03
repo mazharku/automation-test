@@ -1,5 +1,5 @@
 
-package com.mazhar.automation.model;
+package com.mazhar.automation.model.responses;
 
 import java.util.HashMap;
 import java.util.Map;

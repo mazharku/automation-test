@@ -1,15 +1,12 @@
 
-package com.mazhar.automation.model;
+package com.mazhar.automation.model.responses;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import javax.annotation.Generated;
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,13 +15,21 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Sys {
+public class WeatherResponse {
 
-    private Integer type;
+    private Coord coord;
+    private List<Weather__1> weather = null;
+    private String base;
+    private Main main;
+    private Integer visibility;
+    private Wind wind;
+    private Clouds clouds;
+    private Integer dt;
+    private Sys sys;
+    private Integer timezone;
     private Integer id;
-    private String country;
-    private Integer sunrise;
-    private Integer sunset;
+    private String name;
+    private Integer cod;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
