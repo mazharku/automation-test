@@ -11,7 +11,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Collections;
 
 @Component
-public class ReadData {
+public class RestCaller {
     @Autowired
     private RestTemplate restTemplate;
 
@@ -23,8 +23,8 @@ public class ReadData {
     String weatherApiKey;
 
 
-    public Hotel getHotel(String queryParam) {
-        String url= hotelApiUrl+queryParam;
+    public synchronized Hotel getHotel(String cityName) {
+        String url= hotelApiUrl+cityName;
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("x-rapidapi-host","hotels4.p.rapidapi.com");
         httpHeaders.add("x-rapidapi-key", hotelApiKey);
@@ -42,21 +42,25 @@ public class ReadData {
         return responseEntity.getBody();
     }
 
-    public Weather getWeather(String queryParam) {
-        String url= "https://api.openweathermap.org/data/2.5/weather?q="+queryParam+"&appid="+weatherApiKey;
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        HttpEntity<String> httpEntity = new HttpEntity<>(httpHeaders);
+    public synchronized Weather getWeather(String cityName) {
+       try {
+           String url = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + weatherApiKey;
+           HttpHeaders httpHeaders = new HttpHeaders();
+           httpHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+           HttpEntity<String> httpEntity = new HttpEntity<>(httpHeaders);
 
-        ResponseEntity<Weather> responseEntity =
-                restTemplate.exchange(
-                        url,
-                        HttpMethod.GET,
-                        httpEntity,
-                        Weather.class
-                );
+           ResponseEntity<Weather> responseEntity =
+                   restTemplate.exchange(
+                           url,
+                           HttpMethod.GET,
+                           httpEntity,
+                           Weather.class
+                   );
 
-        return responseEntity.getBody();
+           return responseEntity.getBody();
+       }catch (Exception e) {
+           return null;
+       }
     }
 
 

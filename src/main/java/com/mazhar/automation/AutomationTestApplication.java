@@ -1,35 +1,34 @@
 package com.mazhar.automation;
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import com.mazhar.automation.model.Hotel;
-import com.mazhar.automation.model.Student;
-import com.mazhar.automation.model.Teacher;
-import com.mazhar.automation.model.Weather;
-import com.mazhar.automation.worker.ReadData;
+import com.mazhar.automation.model.CountryDataFormat;
+import com.mazhar.automation.model.HotelWeatherModel;
+import com.mazhar.automation.worker.Data;
+import com.mazhar.automation.worker.ReadAllData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import javax.annotation.PostConstruct;
 import java.io.*;
-import java.util.Arrays;
+import java.util.List;
 
 @SpringBootApplication
 public class AutomationTestApplication {
 
 	@Autowired
-	private ReadData data;
+	private ReadAllData data;
 	public static void main(String[] args) {
+		Data.loadData();
 		SpringApplication.run(AutomationTestApplication.class, args);
 	}
 
-	/*public void writeToXML() throws IOException {
+	public void writeToXML(List<CountryDataFormat> countryDataFormats) throws IOException {
 		XmlMapper xmlMapper = new XmlMapper();
-		Teacher teacher = getDate(); // test data
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 		ClassLoader classLoader = getClass().getClassLoader();
 		File file = new File("C:\\Users\\mazhar\\Desktop\\files\\test.xml");
-		xmlMapper.writeValue(byteArrayOutputStream, teacher);
+		xmlMapper.writeValue(byteArrayOutputStream, countryDataFormats);
 		boolean exists = file.exists();
 		if(!exists) {
 			file.createNewFile();
@@ -41,19 +40,17 @@ public class AutomationTestApplication {
 
 	}
 
-	private Teacher getDate() {
-		Teacher teacher = new Teacher();
-		teacher.setName("A");
-		teacher.setSubject("cse");
-		teacher.setStudents(Arrays.asList(new Student("A",1,2),new Student("B",2,3)));
-		return teacher;
-	}*/
 
 
 	@PostConstruct
-	public void doTest() {
-		Weather dhaka = data.getWeather("dhaka");
-		System.out.println(dhaka);
+	public void doTest() throws IOException {
+		List<HotelWeatherModel> models = data.startProcess();
+		List<CountryDataFormat> countryDataFormats = data.formatData(models);
+		writeToXML(countryDataFormats);
+		System.out.println(countryDataFormats.size());
 	}
+
+
+
 
 }
