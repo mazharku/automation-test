@@ -16,11 +16,11 @@ public class RestCaller {
     private RestTemplate restTemplate;
 
     @Value("${hotel.api.key}")
-    String hotelApiKey;
+    private String hotelApiKey;
     @Value("${hotel.url}")
-    String hotelApiUrl;
+    private String hotelApiUrl;
     @Value("${weather.api.key}")
-    String weatherApiKey;
+    private String weatherApiKey;
 
 
     public synchronized HotelResponse getHotel(String cityName) {

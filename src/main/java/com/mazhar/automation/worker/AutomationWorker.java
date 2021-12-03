@@ -13,18 +13,22 @@ import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
-public class ReadAllData {
+public class AutomationWorker {
     private final RestCaller restCaller;
     private final DataSource dataSource;
 
+    public List<CountryDataFormat> startProcess() {
+        final List<ResponseDataModel> responseDataModels = loadData();
+        return formatData(responseDataModels);
+    }
 
-    public List<ResponseDataModel> startProcess() {
+    private synchronized List<ResponseDataModel> loadData() {
         List<DataSourceModel> dataSourceModelList = dataSource.getCountryList();
-        if(dataSourceModelList.isEmpty()){
+        if (dataSourceModelList.isEmpty()) {
             dataSource.loadData();
         }
         List<ResponseDataModel> models = new ArrayList<>();
-        for(DataSourceModel dataSourceModel : dataSourceModelList) {
+        for (DataSourceModel dataSourceModel : dataSourceModelList) {
             HotelResponse hotelResponse = restCaller.getHotel(dataSourceModel.getCityName());
             WeatherResponse weatherResponse = restCaller.getWeather(dataSourceModel.getCityName());
             models.add(new ResponseDataModel(dataSourceModel.getCountryName(), hotelResponse, weatherResponse));
@@ -32,10 +36,10 @@ public class ReadAllData {
         return models;
     }
 
-    public  List<CountryDataFormat> formatData(List<ResponseDataModel> models) {
+    private synchronized List<CountryDataFormat> formatData(List<ResponseDataModel> models) {
         return models
                 .stream()
-                .map(data-> {
+                .map(data -> {
                     HotelResponse hotelResponse = data.getHotelResponse();
                     WeatherResponse weatherResponse = data.getWeatherResponse();
                     CountryDataFormat countryDataFormat = new CountryDataFormat();
@@ -51,7 +55,7 @@ public class ReadAllData {
     }
 
     private Weather generateWeather(WeatherResponse weatherResponse) {
-        if(weatherResponse ==null){
+        if (weatherResponse == null) {
             return null;
         }
         Weather weather = new Weather();
@@ -63,20 +67,20 @@ public class ReadAllData {
     }
 
     private List<Hotel> getHotels(HotelResponse hotelResponse) {
-       return hotelResponse.getSuggestions().stream()
-                .map(data ->{
-                         Hotel hotel = new Hotel();
+        return hotelResponse.getSuggestions().stream()
+                .map(data -> {
+                    Hotel hotel = new Hotel();
                     List<Entity> entities = data.getEntities();
-                    if(entities.isEmpty()) {
+                    if (entities.isEmpty()) {
                         return null;
                     }
-                    for(Entity entity: entities) {
+                    for (Entity entity : entities) {
                         hotel.setName(entity.getName());
                         hotel.setName(entity.getCaption());
                         hotel.setCompanyName(data.getGroup());
                     }
                     return hotel;
-                        }).collect(Collectors.toList());
+                }).collect(Collectors.toList());
     }
 
 
