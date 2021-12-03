@@ -4,6 +4,7 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.mazhar.automation.model.Hotel;
 import com.mazhar.automation.model.Student;
 import com.mazhar.automation.model.Teacher;
+import com.mazhar.automation.model.Weather;
 import com.mazhar.automation.worker.ReadData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -51,9 +52,8 @@ public class AutomationTestApplication {
 
 	@PostConstruct
 	public void doTest() {
-		//Hotel new_york = data.apiCall("new york");
-		//System.out.println(new_york);
-
+		Weather dhaka = data.getWeather("dhaka");
+		System.out.println(dhaka);
 	}
 
 }

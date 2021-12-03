@@ -1,6 +1,7 @@
 package com.mazhar.automation.worker;
 
 import com.mazhar.automation.model.Hotel;
+import com.mazhar.automation.model.Weather;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -41,18 +42,18 @@ public class ReadData {
         return responseEntity.getBody();
     }
 
-    public Hotel getWeather(String queryParam) {
-        String url= "api.openweathermap.org/data/2.5/weather?q="+queryParam+"&appid="+weatherApiKey;
+    public Weather getWeather(String queryParam) {
+        String url= "https://api.openweathermap.org/data/2.5/weather?q="+queryParam+"&appid="+weatherApiKey;
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         HttpEntity<String> httpEntity = new HttpEntity<>(httpHeaders);
 
-        ResponseEntity<Hotel> responseEntity =
+        ResponseEntity<Weather> responseEntity =
                 restTemplate.exchange(
                         url,
                         HttpMethod.GET,
                         httpEntity,
-                        Hotel.class
+                        Weather.class
                 );
 
         return responseEntity.getBody();
