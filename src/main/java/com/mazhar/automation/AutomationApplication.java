@@ -21,10 +21,6 @@ public class AutomationApplication {
 		SpringApplication.run(AutomationApplication.class, args);
 	}
 
-
-
-
-
 	@PostConstruct
 	public void doTest() throws IOException {
 

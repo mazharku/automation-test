@@ -11,6 +11,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class AutomationExecutor {
+    private final String xmlLocation= "C:\\Users\\mazhar\\Desktop\\files\\test";
     private final DataSource dataSource;
     private final AutomationWorker worker;
 
@@ -27,8 +28,7 @@ public class AutomationExecutor {
     private void writeToXML(List<CountryDataFormat> countryDataFormats) throws IOException {
         XmlMapper xmlMapper = new XmlMapper();
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        //ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File("C:\\Users\\mazhar\\Desktop\\files\\test"+System.currentTimeMillis()+".xml");
+        File file = new File(xmlLocation+System.currentTimeMillis()+".xml");
         xmlMapper.writeValue(byteArrayOutputStream, countryDataFormats);
         boolean exists = file.exists();
         if(!exists) {
