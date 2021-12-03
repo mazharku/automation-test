@@ -8,12 +8,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import javax.annotation.PostConstruct;
-import java.io.IOException;
 
 @SpringBootApplication
 @EnableScheduling
 public class AutomationApplication {
-
 	@Autowired
 	private AutomationExecutor process;
 
@@ -22,7 +20,7 @@ public class AutomationApplication {
 	}
 
 	@PostConstruct
-	public void doTest() throws IOException {
+	public void doTest()  {
 
 	}
 

@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class AutomationExecutor {
-    private final String xmlLocation= "C:\\Users\\mazhar\\Desktop\\files\\test";
+    private final String xmlLocation= "./input/test";
     private final DataSource dataSource;
     private final AutomationWorker worker;
 
