@@ -19,11 +19,6 @@ public class AutomationApplication {
 		SpringApplication.run(AutomationApplication.class, args);
 	}
 
-	@PostConstruct
-	public void doTest()  {
-
-	}
-
 	@Scheduled(fixedRate = 600000) //10 min
 	public void scheduleTaskWithFixedRate() {
 		process.doStart();
