@@ -12,9 +12,9 @@ import java.util.List;
 
 @Component
 public class DataSource {
-    private  List<DataSourceModel> dataSourceModelList = new ArrayList<>();
+    private List<DataSourceModel> dataSourceModelList = new ArrayList<>();
 
-    public  void loadData() {
+    public void loadData() {
         try {
             File file = new ClassPathResource("data.csv").getFile();
             List<String[]> values;
@@ -23,9 +23,9 @@ public class DataSource {
             }
             for (int i = 1; i < values.size(); i++) {
                 String[] country = values.get(i);
-                dataSourceModelList.add(new DataSourceModel(country[0], country[1]));
+                dataSourceModelList.add(new DataSourceModel(country[0], country[1], country[2]));
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
 
         }
 
