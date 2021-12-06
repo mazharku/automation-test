@@ -5,6 +5,8 @@ import com.mazhar.automation.model.responses.Entity;
 import com.mazhar.automation.model.responses.HotelResponse;
 import com.mazhar.automation.model.responses.WeatherResponse;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -14,6 +16,8 @@ import java.util.stream.Collectors;
 @Component
 @RequiredArgsConstructor
 public class AutomationWorker {
+    final static Logger logger = LoggerFactory.getLogger(AutomationExecutor.class);
+
     private final RestCaller restCaller;
     private final DataSource dataSource;
 

@@ -2,6 +2,8 @@ package com.mazhar.automation.worker;
 
 import com.mazhar.automation.model.DataSourceModel;
 import com.opencsv.CSVReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
@@ -12,6 +14,7 @@ import java.util.List;
 
 @Component
 public class DataSource {
+    final static Logger logger = LoggerFactory.getLogger(DataSource.class);
     private List<DataSourceModel> dataSourceModelList = new ArrayList<>();
 
     public void loadData() {
@@ -26,7 +29,7 @@ public class DataSource {
                 dataSourceModelList.add(new DataSourceModel(country[0], country[1], country[2]));
             }
         } catch (Exception e) {
-
+            logger.error("can't read data from CSV due to {}", e.getMessage());
         }
 
     }
