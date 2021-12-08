@@ -43,6 +43,7 @@ public class AutomationWorker {
     private synchronized List<CountryDataFormat> formatData(List<ResponseDataModel> models) {
         return models
                 .stream()
+                .filter(e -> e.getHotelResponse()!=null)
                 .map(data -> {
                     HotelResponse hotelResponse = data.getHotelResponse();
                     WeatherResponse weatherResponse = data.getWeatherResponse();
