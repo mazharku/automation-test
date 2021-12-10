@@ -5,22 +5,44 @@
 </head>
 <body>
 <center><h1>Data Automation</h1></center>
-<select name="Select a country: ">
-<div th:each="data : ${datas}">
-        <option th:value="${data.countryName}" th:text="${data.countryName}"></option>
+
+<form action="show" method="post">
+    <select id="country" name="countryName">
+        <option value="">select a country</option>
+        <option
+                th:each="data : ${datas}"
+                th:value="${data.countryName}"
+                th:text="${data.countryName}"
+        ></option>
+    </select>
+    <select id="city" name="cityName">
+        <option value="">select a city</option>
+        <option
+                th:each="data : ${datas}"
+                th:value="${data.cityName}"
+                th:text="${data.cityName}"
+        ></option>
+    </select>
+    <select id="date" name="date">
+        <option value="">select a date</option>
+        <option
+                th:each="data : ${datas}"
+                th:value="${data.date}"
+                th:text="${data.date}"
+        ></option>
+    </select>
+
+    <input type="submit" value="Submit"/><br><br>
+
+</form>
+<div>
+    <center>
+        <table>
+            <tr>
+                <td><h4 th:text="${message}"></h4></td>
+            </tr>
+        </table>
+    </center>
 </div>
-</select>
-<select name="city: ">
-    <div th:each="data : ${datas}">
-        <option th:value="${data.cityName}" th:text="${data.cityName}"></option>
-    </div>
-</select><br>
-<select name="Select a date: ">
-    <div th:each="data : ${datas}">
-        <option th:value="${data.date}" th:text="${data.date}"></option>
-    </div>
-</select><br>
-<button>show</button>
-<button>send</button>
 </body>
 </html>

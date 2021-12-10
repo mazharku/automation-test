@@ -2,6 +2,7 @@ package com.mazhar.automation.worker;
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.mazhar.automation.model.CountryDataFormat;
+import com.mazhar.automation.model.DataSourceModel;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,8 +29,11 @@ public class AutomationExecutor {
            logger.debug("Can't load data due to: {} ", e.getMessage());
         }
     }
+    public List<CountryDataFormat> sendDataToUI(DataSourceModel dataSourceModel) {
+       return worker.loadDataFromUI(dataSourceModel);
+    }
 
-    private void writeToXML(List<CountryDataFormat> countryDataFormats) throws IOException {
+    public void writeToXML(List<CountryDataFormat> countryDataFormats) throws IOException {
         try {
             XmlMapper xmlMapper = new XmlMapper();
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();

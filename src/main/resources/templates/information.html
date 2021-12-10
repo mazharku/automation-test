@@ -1,0 +1,19 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Automation</title>
+</head>
+<body>
+<center><h1>Data Automation</h1></center>
+
+<form action="save" method="post">
+    <table>
+        <tr>
+            <td><h4>Formatted Data: </h4></td>
+            <td><h4 th:text="${data}"></h4></td>
+        </tr>
+    </table>
+    <input type="submit" value="Submit"/>
+</form>
+</body>
+</html>
